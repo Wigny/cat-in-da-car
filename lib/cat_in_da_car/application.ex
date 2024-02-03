@@ -1,6 +1,4 @@
 defmodule CatInDaCar.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
@@ -8,12 +6,15 @@ defmodule CatInDaCar.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: CatInDaCar.Worker.start_link(arg)
-      # {CatInDaCar.Worker, arg}
+      {Nx.Serving,
+       serving: CatInDaCar.Image.server(),
+       name: :image_classification,
+       batch_size: 10,
+       batch_timeout: 100},
+      {CatInDaCar.Video, %{stream: 1}},
+      CatInDaCar.Watcher
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: CatInDaCar.Supervisor]
     Supervisor.start_link(children, opts)
   end

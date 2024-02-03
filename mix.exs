@@ -11,7 +11,6 @@ defmodule CatInDaCar.MixProject do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger],
@@ -19,11 +18,14 @@ defmodule CatInDaCar.MixProject do
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:bumblebee, "~> 0.4.2"},
+      {:nx, "~> 0.6.4"},
+      {:exla, "~> 0.6.4"},
+      {:axon, "~> 0.6.0"},
+      {:kino, "~> 0.12.3"},
+      {:evision, "~> 0.1.34"}
     ]
   end
 end
