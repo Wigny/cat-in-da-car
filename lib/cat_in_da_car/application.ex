@@ -11,7 +11,7 @@ defmodule CatInDaCar.Application do
        name: :image_classification,
        batch_size: 10,
        batch_timeout: 100},
-      {CatInDaCar.Video, %{stream: 1}},
+      {CatInDaCar.Video, %{stream: 0}},
       CatInDaCar.Watcher
     ]
 
