@@ -6,7 +6,7 @@ defmodule CatInDaCar.Image do
     Bumblebee.Vision.image_classification(resnet, featurizer)
   end
 
-  def predict(image) do
-    Nx.Serving.run(:image_classification, image)
+  def predict(serving, image) do
+    Nx.Serving.run(serving, image)
   end
 end
