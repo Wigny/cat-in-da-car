@@ -11,27 +11,19 @@ defmodule CatInDaCar.Watcher do
 
   @impl true
   def init(_args) do
-    {:ok, :ignore, {:continue, :start}}
-  end
-
-  @impl true
-  def handle_continue(:start, _state) do
-    serving = Image.server()
-
     Process.send_after(self(), :predict, :timer.seconds(5))
-
-    {:noreply, %{serving: serving}}
+    {:ok, :ignore}
   end
 
   @impl true
-  def handle_info(:predict, %{serving: serving} = state) do
+  def handle_info(:predict, state) do
     frame = Video.frame()
     tensor = Nx.backend_transfer(Evision.Mat.to_nx(frame))
-    %{predictions: predictions} = Image.predict(serving, tensor)
+    %{predictions: predictions} = Image.predict(tensor)
 
     send(self(), :predict)
 
-    if Enum.find(predictions, fn {label, _} -> String.contains?(label, "cat") end) do
+    if Enum.find(predictions, fn %{label: label} -> String.contains?(label, "cat") end) do
       Telegram.notify(frame)
     end
 

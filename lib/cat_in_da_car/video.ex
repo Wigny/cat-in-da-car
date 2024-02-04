@@ -1,8 +1,6 @@
 defmodule CatInDaCar.Video do
   use GenServer
 
-  import Evision.Constant, only: [cv_CAP_FFMPEG: 0]
-
   require Logger
   alias Evision.VideoCapture
 
@@ -10,8 +8,8 @@ defmodule CatInDaCar.Video do
 
   # Client
 
-  def start_link(%{stream: stream}, opts \\ [name: __MODULE__]) do
-    GenServer.start_link(__MODULE__, stream, opts)
+  def start_link(args \\ %{}, opts \\ [name: __MODULE__]) do
+    GenServer.start_link(__MODULE__, args, opts)
   end
 
   def frame(server \\ __MODULE__) do
@@ -21,17 +19,15 @@ defmodule CatInDaCar.Video do
   # Server
 
   @impl true
-  def init(stream) do
+  def init(_args) do
     Process.flag(:trap_exit, true)
 
-    {:ok, stream, {:continue, :start}}
+    {:ok, :ignore, {:continue, :start}}
   end
 
   @impl true
-  def handle_continue(:start, stream) do
-    IO.puts("Video capture started for #{stream}")
-
-    video = VideoCapture.videoCapture(stream, apiPreference: cv_CAP_FFMPEG())
+  def handle_continue(:start, _state) do
+    video = VideoCapture.videoCapture(0)
 
     send(self(), :grab)
 

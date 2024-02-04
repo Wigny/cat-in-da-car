@@ -7,7 +7,8 @@ defmodule CatInDaCar.Application do
   def start(_type, _args) do
     children = [
       {Finch, name: CatInDaCar.Finch},
-      {CatInDaCar.Video, %{stream: 0}},
+      CatInDaCar.Image,
+      CatInDaCar.Video,
       CatInDaCar.Watcher
     ]
 
