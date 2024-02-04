@@ -25,7 +25,9 @@ defmodule CatInDaCar.MixProject do
       {:exla, "~> 0.6.4"},
       {:axon, "~> 0.6.0"},
       {:kino, "~> 0.12.3"},
-      {:evision, "~> 0.1.34"}
+      {:evision, "~> 0.1.34"},
+      {:telegram, github: "visciang/telegram", tag: "1.2.1"},
+      {:finch, "~> 0.17.0"}
     ]
   end
 end

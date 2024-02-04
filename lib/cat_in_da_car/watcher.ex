@@ -3,7 +3,7 @@ defmodule CatInDaCar.Watcher do
 
   use GenServer
 
-  alias CatInDaCar.{Image, Video}
+  alias CatInDaCar.{Image, Telegram, Video}
 
   def start_link(args \\ %{}, opts \\ [name: __MODULE__]) do
     GenServer.start_link(__MODULE__, args, opts)
@@ -24,7 +24,9 @@ defmodule CatInDaCar.Watcher do
 
     send(self(), :predict)
 
-    IO.inspect(Enum.find(predictions, fn {label, _} -> String.contains?(label, "cat") end))
+    if Enum.find(predictions, fn {label, _} -> String.contains?(label, "cat") end) do
+      Telegram.notify()
+    end
 
     {:noreply, state}
   end

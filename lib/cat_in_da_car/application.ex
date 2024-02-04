@@ -6,6 +6,7 @@ defmodule CatInDaCar.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      {Finch, name: CatInDaCar.Finch},
       {Nx.Serving,
        serving: CatInDaCar.Image.server(),
        name: :image_classification,
